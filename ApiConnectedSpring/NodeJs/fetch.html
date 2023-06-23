@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="data">
+
+        <!-- we want to show data inside it  -->
+        <h1 class="content"> hello world</h1>
+        <button onclick="clicked1()" class="btn1">Get Data From student</button> <br> <br>
+        <button onclick="clicked()" class="btn2">Get Data From person</button> <br> <br>
+        <button onclick="postData()" class="postData">Post Data from person</button> <br> <br>
+        <button onclick="postData1()" class="postData">Post Data from student</button>
+    </div>
+
+    <br>
+    <div>
+        <form id="formData">
+            <label for="">Name : </label>
+            <input type="text" id="name" name="name"><br> <br>
+            <label for="">MIS : </label>
+            <input type="number" id="mis" name="mis"> <br> <br>
+            <button type="button" onclick="buttonClick()" class="btt"> Submit</button>
+        </form>
+    </div>
+
+    <script>
+
+        function clicked(){
+            console.log("clicked")
+
+            // here we will send a request using fetchapi 
+            var m=document.querySelector(".content")
+            m.innerHTML="you clicked"
+
+            var data=document.querySelector(".data")
+            fetch('http://127.0.0.1:8081/person')
+            .then(data => {
+            return data.json();
+            })
+            .then(post => {
+                post.forEach(element => {
+                    
+                    let m=document.createElement("h1")
+                    m.innerHTML=JSON.stringify(element)
+                    data.appendChild(m)
+                    console.log(JSON.stringify(element))
+
+                });
+            });
+        }
+        function clicked1(){
+            console.log("clicked")
+
+            // here we will send a request using fetchapi 
+            var m=document.querySelector(".content")
+            m.innerHTML="you clicked"
+
+            var data=document.querySelector(".data")
+            fetch('http://127.0.0.1:8081/')
+            .then(data => {
+            return data.json();
+            })
+            .then(post => {
+                post.forEach(element => {
+                    
+                    let m=document.createElement("h1")
+                    m.innerHTML=JSON.stringify(element)
+                    data.appendChild(m)
+                    console.log(JSON.stringify(element))
+
+                });
+            });
+        }
+
+        // lets write code for post 
+        // var submit=document.querySelector("#submit")
+        // console.log(submit)
+        // submit.addEventListener(clicked,()=>{
+        //     console.log("clicked");
+        // }
+        // )
+
+        function postData(){
+            console.log("postData is called")
+            // POST request using fetch()
+            fetch('http://localhost:8081/addperson',{
+            method: 'POST',
+            headers: {'Content-Type' : 'application/json'},
+            body: JSON.stringify({
+                fname:"sham",
+                lname:"salunkhe"
+            }
+            )}
+        )}
+
+        function postData1(){
+            console.log("postData is called")
+            // POST request using fetch()
+            fetch('http://localhost:8081/data',{
+            method: 'POST',
+            headers: {'Content-Type' : 'application/json'},
+            body: JSON.stringify({
+                mis:111,
+                name:"sham"
+            }
+            )}
+        )}
+
+    
+        // now post through data 
+        function buttonClick(){
+            var name =document.querySelector("#name")
+            var mis =document.querySelector("#mis")
+
+            console.log(name.value,mis.value)
+            if(name.value !="" && mis.value!=""){
+                fetch("http://localhost:8081/data",{
+                    method:"POST",
+                    headers: {'Content-Type' : 'application/json'},
+
+                    body:JSON.stringify({
+                        mis:Number(mis.value),
+                        name:name.value
+                    })
+
+                })
+
+                console.log("posted successfullly");
+                name.value=""
+                mis.value=""
+
+            }
+        }
+    </script>
+</body>
+</html>
