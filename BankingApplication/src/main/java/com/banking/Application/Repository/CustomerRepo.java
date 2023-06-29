@@ -23,4 +23,9 @@ public interface CustomerRepo extends CrudRepository<Customer, Integer> {
 
     @Query(value = "SELECT * FROM customer;", nativeQuery = true)
     List<Customer> findAllUsers();
+
+    @Transactional
+    @Modifying
+    @Query(value = "delete from customer where customer.customer_id = :customer_id",nativeQuery = true)
+    public void deleteRowFromTable(@Param(value = "customer_id") int customer_id);
 }

@@ -1,16 +1,13 @@
 package com.banking.Application.Controllers;
 
+import com.banking.Application.Controllers.RequiredClasses.OBJ;
 import com.banking.Application.Model.LoginDatabase;
 import com.banking.Application.Repository.LoginRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-class OBJ{
-    public String username;
-    public String newpass;
-}
 
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 @RestController
 @RequestMapping("/login")
 public class LoginController {

@@ -1,10 +1,12 @@
 package com.banking.Application.Controllers;
 
+import com.banking.Application.Controllers.RequiredClasses.CustData;
 import com.banking.Application.Controllers.RequiredClasses.RegisterClass;
 import com.banking.Application.Model.Account;
 import com.banking.Application.Model.LoginDatabase;
 import com.banking.Application.Model.Transactions;
 import com.banking.Application.Repository.AccountRepo;
+import com.banking.Application.Repository.CustomerRepo;
 import com.banking.Application.Repository.LoginRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 @RestController
 @RequestMapping("/account")
 public class AccountController {
@@ -21,6 +24,10 @@ public class AccountController {
 
     @Autowired
     LoginRepo lgr;
+
+    @Autowired
+    CustomerRepo custRepo;
+
     @GetMapping("/")
     public String HomePage() {
         return "<h1> welcome to account page</h1>";
@@ -85,4 +92,12 @@ public class AccountController {
         return "new account created successfulley!";
     }
 
+    @GetMapping("/delete/{acc_no}")
+    public String deleteAccount(@PathVariable int acc_no){
+        accountRepo.func1();
+        custRepo.deleteRowFromTable(accountRepo.getCustomerIdFromAccount(acc_no));
+        accountRepo.deleteRowFromTable(acc_no);
+        accountRepo.func2();
+        return "data deleted successfulley!";
+    }
 }
