@@ -40,12 +40,7 @@ public class CustomerController {
         return "mobile number updated successfulley";
     }
 
-    @PostMapping("/mydata/")
-    public Customer getCustomerByCustomerId(@RequestBody int customer_id) {
-        return custRepo.getDataByCustomerId(customer_id);
-    }
-
-    @PostMapping("/ind")
+    @PostMapping("/mydata")
     public Customer getBlah(@RequestBody CustData d) {
         return custRepo.getDataByCustomerId((d.customer_id));
     }

@@ -13,12 +13,16 @@ public interface TransactionRepository extends CrudRepository<Transactions, Inte
 
     @Transactional
     @Modifying
-    @Query(value = "insert into transactions (transaction_id,account_no,transaction_amount,type,date) values (:transaction_id,:account_no,:transaction_amount,:type,:date);", nativeQuery = true)
+    @Query(value = "insert into transactions (transaction_id,source_account_no,transaction_amount,target_account_no,type,date) values (:transaction_id,:account_no,:transaction_amount,:target_account_no,:type,:date);", nativeQuery = true)
     public void setTransactionValues(
             @Param(value = "transaction_id") int transaction_id,
             @Param(value = "account_no") int account_no,
             @Param(value = "transaction_amount") double transaction_amount,
+            @Param(value = "target_account_no") int target_account_no,
             @Param(value = "type") String type,
             @Param(value = "date") String date
     );
+
+    @Query(value = "select * from transactions where transaction_id=:transaction_id", nativeQuery = true)
+    public Transactions getTransactionById(@Param(value = "transaction_id") int transaction_id);
 }

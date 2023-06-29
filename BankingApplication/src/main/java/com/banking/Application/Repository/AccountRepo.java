@@ -17,5 +17,11 @@ public interface AccountRepo extends CrudRepository<Account, Integer> {
     @Transactional
     @Modifying
     @Query(value = "update account a set a.account_balance=:account_balance where a.customer_id=:customer_id", nativeQuery = true)
-    public void updateAccountBalance(@Param(value = "account_balance") double account_balance, @Param(value = "customer_id") int customer_id);
+    public void updateAccountBalanceUsingCustomerId(@Param(value = "account_balance") double account_balance, @Param(value = "customer_id") int customer_id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update account a set a.account_balance=:account_balance where a.account_no=:account_no", nativeQuery = true)
+    public void updateAccountBalanceUsingAccountNO(@Param(value = "account_balance") double account_balance, @Param(value = "account_no") int account_no);
+
 }

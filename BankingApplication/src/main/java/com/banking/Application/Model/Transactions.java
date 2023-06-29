@@ -13,12 +13,23 @@ public class Transactions {
     @SequenceGenerator(name = "transactionid", sequenceName = "transactions", initialValue = 98700, allocationSize = 1)
     @GeneratedValue(generator = "transactionid")
     private int transaction_id;
+
     @ManyToOne
-    @JoinColumn(name = "account_no", referencedColumnName = "account_no")
+    @JoinColumn(name = "Source_account_no")
     private Account account_no;
     private double transaction_amount;
     private String date;
     private String type;
+    private int target_account_no;
+
+    public int getTarget_account_no() {
+        return target_account_no;
+    }
+
+    public void setTarget_account_no(int target_account_no) {
+        this.target_account_no = target_account_no;
+    }
+
 
     public int getTransaction_id() {
         return transaction_id;

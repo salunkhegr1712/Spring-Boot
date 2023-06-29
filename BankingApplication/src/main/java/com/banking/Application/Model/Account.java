@@ -24,11 +24,11 @@ public class Account {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
     private Customer customer_id;
+
     private String account_type;
     private String account_status;
-    // while transfering json data you have to use customer and in table it will saved as per
-    // join column
     private float account_balance;
+
     @JsonIgnore
     @OneToMany(mappedBy = "account_no")
     private List<Transactions> transactions;
