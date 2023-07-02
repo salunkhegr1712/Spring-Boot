@@ -16,4 +16,8 @@ public interface CheckbookRepo extends CrudRepository<CheckbookAllotment, Intege
     @Query(value = "update checkbooks u set u.status =:status where u.account_no=:account_no", nativeQuery = true)
     void updateCheckbookStatus(@Param(value = "account_no") int account_no, @Param(value = "status") String status);
 
+    @Transactional
+    @Modifying
+    @Query(value = "delete from checkbooks where checkbooks.account_no = :account_no",nativeQuery = true)
+    public void deleteRowFromTable(@Param(value = "account_no") int account_no);
 }

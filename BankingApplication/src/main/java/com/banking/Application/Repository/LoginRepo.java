@@ -22,4 +22,17 @@ public interface LoginRepo extends CrudRepository<LoginDatabase,Integer> {
                                 @Param(value="password") String password);
 
 
+    @Transactional
+    @Modifying
+    @Query(value = "delete from logindb where logindb.account_no = :account_no",nativeQuery = true)
+    public void deleteRowFromTable(@Param(value = "account_no") int account_no);
+
+    @Query(value = "select * from logindb where logindb.username=:username",nativeQuery = true)
+    public List<LoginDatabase> searchByUsername(@Param(value = "username") String username);
+
+    @Query(value = "select password from logindb where logindb.username=:username",nativeQuery = true)
+    public LoginDatabase getPasswordFromUsername(@Param(value = "username") String username);
+
+    @Query(value = "select * from logindb where logindb.username=:username",nativeQuery = true)
+    public LoginDatabase getRoleFromUsername(@Param(value = "username") String username);
 }

@@ -28,4 +28,7 @@ public interface CustomerRepo extends CrudRepository<Customer, Integer> {
     @Modifying
     @Query(value = "delete from customer where customer.customer_id = :customer_id",nativeQuery = true)
     public void deleteRowFromTable(@Param(value = "customer_id") int customer_id);
+
+    @Query(value = "select name from customer where customer_id=:customer_id", nativeQuery = true)
+    Customer getNameFromCustomerId(@Param(value = "customer_id") Integer customer_id);
 }

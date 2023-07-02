@@ -9,6 +9,11 @@ public class CheckbookAllotment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int checkbook_id;
+
+    public void setAccount_no(int account_no) {
+        this.account_no.setAccount_no(account_no);
+    }
+
     @OneToOne
     @JoinColumn(name = "account_no", referencedColumnName = "account_no")
     private Account account_no;

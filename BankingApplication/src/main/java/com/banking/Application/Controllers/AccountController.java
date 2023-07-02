@@ -3,9 +3,11 @@ package com.banking.Application.Controllers;
 import com.banking.Application.Controllers.RequiredClasses.CustData;
 import com.banking.Application.Controllers.RequiredClasses.RegisterClass;
 import com.banking.Application.Model.Account;
+import com.banking.Application.Model.Customer;
 import com.banking.Application.Model.LoginDatabase;
 import com.banking.Application.Model.Transactions;
 import com.banking.Application.Repository.AccountRepo;
+import com.banking.Application.Repository.CheckbookRepo;
 import com.banking.Application.Repository.CustomerRepo;
 import com.banking.Application.Repository.LoginRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class AccountController {
     @Autowired
     CustomerRepo custRepo;
 
+    @Autowired
+    CheckbookRepo chr;
     @GetMapping("/")
     public String HomePage() {
         return "<h1> welcome to account page</h1>";
@@ -89,6 +93,7 @@ public class AccountController {
         s.setUsername(rc.username);
         s.setRole(rc.role);
         lgr.save(s);
+
         return "new account created successfulley!";
     }
 
@@ -96,8 +101,20 @@ public class AccountController {
     public String deleteAccount(@PathVariable int acc_no){
         accountRepo.func1();
         custRepo.deleteRowFromTable(accountRepo.getCustomerIdFromAccount(acc_no));
+        lgr.deleteRowFromTable(acc_no);
+//        chr.deleteRowFromTable(acc_no);
         accountRepo.deleteRowFromTable(acc_no);
         accountRepo.func2();
         return "data deleted successfulley!";
+    }
+
+    @GetMapping("/{requested}")
+    public List<Account> getAllPendingAccounts(@PathVariable String requested){
+        return  accountRepo.getAccountsByStatus(requested);
+    }
+
+    @GetMapping("/getname/{acc}")
+    public Customer getCustomerFromAccountNo(@PathVariable int acc){
+        return custRepo.getDataByCustomerId(accountRepo.getCustomerIdFromAccount(acc));
     }
 }

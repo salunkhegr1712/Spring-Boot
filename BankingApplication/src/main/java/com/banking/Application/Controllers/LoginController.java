@@ -40,4 +40,30 @@ public class LoginController {
         return "data found and updated successfulley";
     }
 
+    @GetMapping("/search/{user}")
+    public boolean searchusername(@PathVariable String user){
+        try {
+            LoginDatabase a= lgRepo.searchByUsername(user).get(0);
+            return false;
+        }
+        catch (Exception a){
+            return true;
+        }
+    }
+
+    @GetMapping("/getpassword/{username}")
+    public LoginDatabase getPassword(@PathVariable String username){
+        try{
+            return lgRepo.getPasswordFromUsername(username);
+        }
+        catch (Exception e){
+            return new LoginDatabase();
+        }
+    }
+
+    @GetMapping("/getrole/{username}")
+    public LoginDatabase getRole(@PathVariable String username ){
+        return  lgRepo.getRoleFromUsername(username);
+    }
+
 }

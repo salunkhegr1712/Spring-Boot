@@ -8,6 +8,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AccountRepo extends CrudRepository<Account, Integer> {
 
@@ -44,4 +46,9 @@ public interface AccountRepo extends CrudRepository<Account, Integer> {
 //    delete customer_linked to that
     @Query(value = "select customer_id from account where account.account_no=:account_no ",nativeQuery = true)
     public int getCustomerIdFromAccount(@Param(value = "account_no") int account_no);
+
+    @Query(value = "select * from account where account.account_status= :account_status",nativeQuery = true)
+    public List<Account> getAccountsByStatus(@Param(value = "account_status") String account_status);
+
+
 }

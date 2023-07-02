@@ -14,6 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 public class Account {
 
+    public void setAccount_no(int account_no) {
+        this.account_no = account_no;
+    }
+
     @Id
     @SequenceGenerator(name = "grs1", sequenceName = "ghansham", initialValue = 3333333, allocationSize = 1)
     @GeneratedValue(generator = "grs1")
