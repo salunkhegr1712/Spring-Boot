@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+</head>
+<body>
+      
+      <h1>Hello world</h1>
+
+      <button class="hell" onclick="fun()">Get Calls</button>
+      <button class="hell" onclick="fun1()">Post : createnew check</button>
+      <button class="hell" onclick="fun2()">post : account creation</button>
+      <button class="hell" onclick="fun3()">post : checkbook updatestatus</button>
+      <button class="hell" onclick="fun4()">post : update no</button>
+      <button class="hell" onclick="fun5()">post : customer my data</button>
+      <button class="hell" onclick="fun6()">post : new transaction </button>
+      <button class="hell" onclick="fun7()">post : account register</button>
+      <script>
+
+            function fun (){
+            // fetch('http://localhost:8080/customer/data')
+            // fetch('http://localhost:8080/account/data')
+            // fetch('http://localhost:8080/transactions/data')
+            // fetch('http://localhost:8080/checkbook/status')
+            fetch("http://localhost:8080/transactions/gettransaction/1143321062")
+            .then(data => {
+            return data.json();
+            })
+            .then(post => {
+                console.log(post);
+            });
+            }
+
+            // this is template for the post inside the rest api 
+
+            // checkbook create new
+            function fun1(){
+
+                  console.log("postData is called")
+                  fetch('http://localhost:8080/checkbook/createnew', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body:JSON.stringify( {
+                              "account_no":{
+                              "account_no": 3333341},
+                              "status":"suspended"
+                        }) 
+                  });
+
+            }
+
+            // post  : account creation
+            function fun2(){
+                  console.log("postData is called")
+                  fetch('http://localhost:8080/account/createAccount', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body:JSON.stringify({
+                        "customer_id":{
+                        "name":"vishal",
+                        "dob":"17/01/2002",
+                        "address":"morochi",
+                        "city":"pune",
+                        "state":"Maharashtra",
+                        "email":"salunkhegr1712@gmail.com",
+                        "mobileno":"8624969401",
+                        "pincode":413109
+                        },
+                        "account_type":"savings",
+                        "account_status":"active",
+                        "account_balance":167829.22
+                        } 
+
+                        ) 
+                  });
+            }
+            
+      
+             // post  : account creation
+             function fun3(){
+                  console.log("postData is called")
+                  fetch('http://localhost:8080/checkbook/updatestatus', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body:JSON.stringify(
+                        {
+                        "account_no":3333333,
+                        "status":"suspended"
+                        }
+
+                        ) 
+                  });
+            }
+
+             // post  : customer update no
+             function fun4(){
+                  console.log("postData is called")
+                  fetch('http://localhost:8080/customer/updateno', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body:JSON.stringify(
+                        {
+                              "id":111125,
+                              "b":"7058289401"
+                        }
+
+                        ) 
+                  });
+            }
+
+            // post customer data from customer_id
+            function fun5(){
+                  console.log("postData is called")
+                  fetch('http://localhost:8080/customer/mydata', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body:JSON.stringify(
+                        {
+                              "customer_id":111125,
+                             
+                        }
+
+                        ) 
+                  // get reply from the http post request 
+                  // we only use this when we get some output after post request
+                  }).then(responce=>responce.json())
+                  .then(res=>console.log(res))
+                  
+            }
+
+            // post create new transaction 
+            function fun6(){
+                  console.log("postData is called")
+                  fetch('http://localhost:8080/transactions/dotransaction', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body:JSON.stringify(
+                       
+                        {
+                        "source_account_no": 3333335,
+                        "amount":35658,
+                        "date":"17/01/2002",
+                        "type":"fund-transfer",
+                        "target_account_no":3333336
+                        }
+
+                        ) 
+                  });
+            }
+
+            // post : register
+            function fun7(){
+                  fetch("http://localhost:8080/account/register",{
+
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body:JSON.stringify(
+                       
+                        {
+                              "account":{
+                                    "customer_id":{
+                                    "name":"Anway",
+                                    "dob":"04/04/200",
+                                    "address":"morochi",
+                                    "city":"pune",
+                                    "state":"Maharashtra",
+                                    "email":"anway@gmail.com",
+                                    "mobileno":"9204793324",
+                                    "pincode":4110005
+                                    },
+                              "account_type":"savings",
+                              "account_status":"active",
+                              "account_balance":150000
+                              },
+                              "username":"anway4552712",
+                              "password":"password12334",
+                              "role":"user"
+                              }
+
+                        ) 
+                  })
+            }
+      </script>
+</body>
+</html>
