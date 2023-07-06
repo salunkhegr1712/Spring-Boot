@@ -14,15 +14,14 @@ import java.util.List;
 public interface AccountRepo extends CrudRepository<Account, Integer> {
 
 
-
     @Transactional
     @Modifying
-    @Query(value = "SET FOREIGN_KEY_CHECKS=0",nativeQuery = true)
+    @Query(value = "SET FOREIGN_KEY_CHECKS=0", nativeQuery = true)
     public void func1();
 
     @Transactional
     @Modifying
-    @Query(value = "SET FOREIGN_KEY_CHECKS=1",nativeQuery = true)
+    @Query(value = "SET FOREIGN_KEY_CHECKS=1", nativeQuery = true)
     public void func2();
 
     @Query(value = "select * from account where account_no =:account_no", nativeQuery = true)
@@ -40,15 +39,23 @@ public interface AccountRepo extends CrudRepository<Account, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "delete from account where account.account_no = :account_no",nativeQuery = true)
+    @Query(value = "delete from account where account.account_no = :account_no", nativeQuery = true)
     public void deleteRowFromTable(@Param(value = "account_no") int account_no);
 
-//    delete customer_linked to that
-    @Query(value = "select customer_id from account where account.account_no=:account_no ",nativeQuery = true)
+    //    delete customer_linked to that
+    @Query(value = "select customer_id from account where account.account_no=:account_no ", nativeQuery = true)
     public int getCustomerIdFromAccount(@Param(value = "account_no") int account_no);
 
-    @Query(value = "select * from account where account.account_status= :account_status",nativeQuery = true)
+    @Query(value = "select * from account where account.account_status= :account_status", nativeQuery = true)
     public List<Account> getAccountsByStatus(@Param(value = "account_status") String account_status);
 
+
+    @Query(value = "select * from account where account.account_no=:account_no", nativeQuery = true)
+    public List<Account> searchByUsername(@Param(value = "account_no") int account_no);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update account set account_status=:account_status where account.account_no=:account_no", nativeQuery = true)
+    public void updateAccountStatus(@Param(value = "account_no") int account_no, @Param(value = "account_status") String account_status);
 
 }

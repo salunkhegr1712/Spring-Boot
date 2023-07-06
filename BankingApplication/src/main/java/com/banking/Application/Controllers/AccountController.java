@@ -1,37 +1,25 @@
 package com.banking.Application.Controllers;
 
-import com.banking.Application.Controllers.RequiredClasses.CustData;
 import com.banking.Application.Controllers.RequiredClasses.RegisterClass;
 import com.banking.Application.Model.Account;
 import com.banking.Application.Model.Customer;
-import com.banking.Application.Model.LoginDatabase;
 import com.banking.Application.Model.Transactions;
-import com.banking.Application.Repository.AccountRepo;
-import com.banking.Application.Repository.CheckbookRepo;
-import com.banking.Application.Repository.CustomerRepo;
-import com.banking.Application.Repository.LoginRepo;
+import com.banking.Application.Service.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "*",allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/account")
 public class AccountController {
 
-    @Autowired
-    AccountRepo accountRepo;
+//    here get service;
 
     @Autowired
-    LoginRepo lgr;
+    service serv;
 
-    @Autowired
-    CustomerRepo custRepo;
-
-    @Autowired
-    CheckbookRepo chr;
     @GetMapping("/")
     public String HomePage() {
         return "<h1> welcome to account page</h1>";
@@ -40,81 +28,56 @@ public class AccountController {
     //    mapping for account
     @GetMapping("/data")
     public List<Account> getAccountData() {
-        return (List<Account>) accountRepo.findAll();
+        return serv.getAccountData();
     }
 
     @GetMapping("/data/{mydata}")
     public Account getMyAccountData(@PathVariable int mydata) {
-        return accountRepo.getAccountDetails(mydata);
+        return serv.getMyAccountData(mydata);
     }
 
     @PostMapping("/createAccount")
     public String CreateAccount(@RequestBody Account cust) {
 
-        accountRepo.save(cust);
+        serv.saveInAccountRepo(cust);
         return "New account Added";
-    }
-
-    @GetMapping("/withdraw")
-    public String withdrawMoney() {
-        Account a = accountRepo.getAccountDetails(3333333);
-        accountRepo.updateAccountBalanceUsingCustomerId(a.getAccount_balance() - 10000, a.grabMycustomerId());
-        return "updated balance : " + a.getAccount_balance();
-    }
-
-    @GetMapping("/deposits")
-    public String depositMoney(@RequestBody int amount, @RequestBody int account_no) {
-        Account a = accountRepo.getAccountDetails(account_no);
-        accountRepo.updateAccountBalanceUsingCustomerId(a.getAccount_balance() + amount, a.grabMycustomerId());
-        return "updated balance : " + a.getAccount_balance();
     }
 
     @GetMapping("/transactions/{idd}")
     public List<Transactions> getSpecific(@PathVariable int idd) {
-        List<Transactions> a = accountRepo.getAccountDetails(idd).getTransactions();
-
-        if (a.size() == 0) {
-            return new ArrayList<>();
-        }
-        return a;
-    }
-    @GetMapping("/transactions")
-    public List<Transactions> getAllTransactions() {
-
-        return accountRepo.getAccountDetails(3333336).getTransactions();
+        return serv.getSpecific(idd);
     }
 
     @PostMapping("/register")
-    public String newRegistration(@RequestBody RegisterClass rc){
-        accountRepo.save(rc.account);
-        LoginDatabase s=new LoginDatabase();
-        s.setAccount_no(rc.account);
-        s.setPassword(rc.password);
-        s.setUsername(rc.username);
-        s.setRole(rc.role);
-        lgr.save(s);
+    public String newRegistration(@RequestBody RegisterClass rc) {
 
+        serv.newRegistration(rc);
         return "new account created successfulley!";
     }
 
     @GetMapping("/delete/{acc_no}")
-    public String deleteAccount(@PathVariable int acc_no){
-        accountRepo.func1();
-        custRepo.deleteRowFromTable(accountRepo.getCustomerIdFromAccount(acc_no));
-        lgr.deleteRowFromTable(acc_no);
-//        chr.deleteRowFromTable(acc_no);
-        accountRepo.deleteRowFromTable(acc_no);
-        accountRepo.func2();
-        return "data deleted successfulley!";
+    public boolean deleteAccount(@PathVariable int acc_no) {
+        return deleteAccount(acc_no);
     }
 
-    @GetMapping("/{requested}")
-    public List<Account> getAllPendingAccounts(@PathVariable String requested){
-        return  accountRepo.getAccountsByStatus(requested);
+    @GetMapping("/status/{requested}")
+    public List<Account> getAllPendingAccounts(@PathVariable String requested) {
+        return serv.getAllPendingAccounts(requested);
     }
 
     @GetMapping("/getname/{acc}")
-    public Customer getCustomerFromAccountNo(@PathVariable int acc){
-        return custRepo.getDataByCustomerId(accountRepo.getCustomerIdFromAccount(acc));
+    public Customer getCustomerFromAccountNo(@PathVariable int acc) {
+        return serv.getCustomerFromAccountNo(acc);
+    }
+
+    @GetMapping("/search/{user}")
+    public boolean searchusername(@PathVariable int user) {
+        return serv.searchusername(user);
+    }
+
+    @GetMapping("/makeaccountactive/{account_no}")
+    public boolean MakeAccountActive(@PathVariable int account_no) {
+        serv.MakeAccountActive(account_no);
+        return true;
     }
 }

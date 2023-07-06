@@ -1,49 +1,53 @@
 package com.banking.Application.Controllers;
 
 import com.banking.Application.Model.AdminDatabase;
-import com.banking.Application.Model.LoginDatabase;
-import com.banking.Application.Repository.AdminDbRepo;
+import com.banking.Application.Service.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
-@CrossOrigin(origins = "*",allowedHeaders = "*")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/admindb")
 public class AdminDBController {
+
+    //    in each controller you have to import the service
     @Autowired
-    AdminDbRepo adrepo;
+    service serv;
 
     @GetMapping("/")
-    public String firstPage(){
+    public String firstPage() {
         return "hello world";
     }
 
     @PostMapping("/addStaff")
-    public String addStaff(@RequestBody AdminDatabase a){
-        adrepo.save(a);
-        return  "data added successfulley";
+    public boolean addStaff(@RequestBody AdminDatabase a) {
+        serv.saveInAdminDB(a);
+        return true;
 
     }
+
     @GetMapping("/data")
-    public List<AdminDatabase> getData(){
-        return (List<AdminDatabase>) adrepo.findAll();
+    public List<AdminDatabase> getData() {
+        return serv.getData();
     }
 
     @GetMapping("/getrole/{username}")
-    public AdminDatabase getRole(@PathVariable String username ){
-        return  adrepo.getRoleFromUsername(username);
+    public AdminDatabase getRole(@PathVariable String username) {
+
+        return serv.getRole(username);
     }
+
     @GetMapping("/search/{user}")
-    public boolean searchusername(@PathVariable String user){
-        try {
-            AdminDatabase a= adrepo.searchByUsername(user).get(0);
-            return false;
-        }
-        catch (Exception a){
-            return true;
-        }
+    public boolean searchusername(@PathVariable String user) {
+        return serv.searchusernameAdminDB(user);
+    }
+
+    @GetMapping("/delete/{id}")
+    public boolean deleteEntry(@PathVariable int id) {
+        serv.deleteEntryAdminDB(id);
+        return true;
     }
 }

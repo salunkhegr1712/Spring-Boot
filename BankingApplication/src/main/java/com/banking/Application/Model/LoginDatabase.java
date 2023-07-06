@@ -10,18 +10,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LoginDatabase {
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     @Id
     private String username;
-
     private String password;
-
     @OneToOne
     @JoinColumn(name = "account_no", referencedColumnName = "account_no")
     private Account account_no;
+    private String role;
 
     public String getRole() {
         return role;
@@ -31,9 +26,12 @@ public class LoginDatabase {
         this.role = role;
     }
 
-    private String role;
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

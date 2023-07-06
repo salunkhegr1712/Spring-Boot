@@ -8,10 +8,11 @@ public class AdminDatabase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  int adminId;
+    private int adminId;
 
     private String username;
     private String password;
+    private String role;
 
     public int getAdminId() {
         return adminId;
@@ -44,6 +45,4 @@ public class AdminDatabase {
     public void setRole(String role) {
         this.role = role;
     }
-
-    private String role;
 }

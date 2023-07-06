@@ -14,25 +14,18 @@ import java.util.List;
 @NoArgsConstructor
 public class Account {
 
-    public void setAccount_no(int account_no) {
-        this.account_no = account_no;
-    }
-
     @Id
     @SequenceGenerator(name = "grs1", sequenceName = "ghansham", initialValue = 3333333, allocationSize = 1)
     @GeneratedValue(generator = "grs1")
     private int account_no;
-
     //    here we will add a foreign key
     //    the foreign key field have name cust id in account
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
     private Customer customer_id;
-
     private String account_type;
     private String account_status;
     private float account_balance;
-
     @JsonIgnore
     @OneToMany(mappedBy = "account_no")
     private List<Transactions> transactions;
@@ -47,6 +40,10 @@ public class Account {
 
     public int getAccount_no() {
         return account_no;
+    }
+
+    public void setAccount_no(int account_no) {
+        this.account_no = account_no;
     }
 
     public String getAccount_type() {

@@ -1,7 +1,6 @@
 package com.banking.Application.Controllers.RequiredClasses;
 
 import com.banking.Application.Model.Account;
-import com.banking.Application.Model.CheckbookAllotment;
 
 public class RegisterClass {
     public Account account;
